@@ -1,15 +1,13 @@
 package net.aimeizi.service.impl;
 
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.searchbox.client.JestClient;
-import io.searchbox.client.JestClientFactory;
-import io.searchbox.client.config.HttpClientConfig;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 import net.aimeizi.model.Article;
 import net.aimeizi.service.ArticleService;
+import net.aimeizi.service.Services;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.highlight.HighlightBuilder;
@@ -22,24 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Administrator on 2015/9/21.
- */
+
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
 
-    private static JestClient getJestClient() {
-        JestClientFactory factory = new JestClientFactory();
-        factory.setHttpClientConfig(new HttpClientConfig
-                .Builder("http://127.0.0.1:9200")
-                .gson(new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create())
-                .multiThreaded(true)
-                .readTimeout(10000)
-                .build());
-        JestClient client = factory.getObject();
-        return client;
-    }
+
 
     /**
      * 检索
@@ -54,7 +40,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
     public Map<String, Object> search(String field, String queryString, String older, int pageNumber, int pageSize) throws Exception {
         List<Article> articles = new ArrayList<Article>();
-        JestClient jestClient = getJestClient();
+        JestClient jestClient = Services.getJestClient();
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         // 构建查询
         if ("all".equals(field)) {

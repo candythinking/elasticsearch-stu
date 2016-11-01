@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2015/9/21.
  */
-public interface ArticleService {
+public interface FarmService {
 
     /**
      * 根据field和queryString全文检索
